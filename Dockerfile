@@ -4,12 +4,17 @@ FROM eclipse-temurin:17-jdk-jammy
 # Set working directory
 WORKDIR /app
 
-# Copy and build app
+# Copy everything
 COPY . /app
+
+# ✅ Give execute permission to mvnw
+RUN chmod +x ./mvnw
+
+# Build the app
 RUN ./mvnw clean package -DskipTests
 
-# Expose the port (Render uses PORT env)
+# Expose port (Render will set PORT env)
 EXPOSE 8080
 
-# Run the JAR
+# Start the app
 CMD ["sh", "-c", "java -jar target/student_services-1.0.0.jar"]
